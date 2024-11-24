@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
 <!--  <header>-->
 <!--    <div class="w3-container w3-indigo">-->
-<!--      <h3>Site Words!</h3>-->
+<!--      <h3>Sight Words!</h3>-->
 
 <!--      <nav>-->
 <!--        <RouterLink to="/">Welcome</RouterLink> &nbsp;-->
