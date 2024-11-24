@@ -1,6 +1,6 @@
 <template>
 
-  <div class="xw3-container w3-orange full-height">
+  <div class="xw3-container w3-orange full-height" style="overflow:hidden;">
 
     <!--    direction={{direction}} &#45;&#45; is={{isSwiping}} card = {{card}}-->
 
@@ -257,7 +257,7 @@ function nextWord(count) {
 
 
 .look-right-leave-to, .look-left-enter-from {
-  transform: translate(-300%, -50%);
+  transform: translate(-200%, -50%);
 }
 
 .look-right-enter-from, .look-left-leave-to {
