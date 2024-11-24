@@ -244,8 +244,8 @@ function nextWord(count) {
 
   currentIndex.value += count;
   if (currentIndex.value < 0) {
-    currentIndex.value = words.length - 1;
-  } else if (currentIndex.value >= words.length) {
+    currentIndex.value = words.value.length - 1;
+  } else if (currentIndex.value >= words.value.length) {
     currentIndex.value = 0;
   }
 
@@ -292,11 +292,11 @@ function nextWord(count) {
   durations and timing functions.
 */
 .look-right-enter-active, .look-left-enter-active {
-  transition: all 0.2s ease-out;
+  transition: all 0.150s ease-out;
 }
 
 .look-right-leave-active, .look-left-leave-active {
-  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.150s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 
