@@ -10,12 +10,49 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/pre-k',
+      name: 'pre-k',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "prek"}
+    },
+    {
       path: '/kinder',
       name: 'kinder',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
+      props: {listName: "kinder"}
+    },
+    {
+      path: '/first',
+      name: 'first',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "first"}
+    },
+    {
+      path: '/second',
+      name: 'second',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "second"}
+    },
+    {
+      path: '/third',
+      name: 'third',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "third"}
     },
   ],
 })

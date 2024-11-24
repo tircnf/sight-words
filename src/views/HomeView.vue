@@ -8,8 +8,11 @@
       <div class="w3-container w3-content w3-indigo">
         <h3>Site Words!</h3>
         <nav>
-          <RouterLink to="/">Welcome</RouterLink> &nbsp;
-          <RouterLink to="/kinder">Kinder</RouterLink>
+          <RouterLink to="/pre-k">Pre-K</RouterLink> &nbsp;
+          <RouterLink to="/kinder">Kinder</RouterLink> &nbsp;
+          <RouterLink to="/first">First</RouterLink> &nbsp;
+          <RouterLink to="/second">Second</RouterLink> &nbsp;
+          <RouterLink to="/third">Third</RouterLink> &nbsp;
         </nav>
       </div>
     </header>

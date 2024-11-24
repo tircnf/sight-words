@@ -69,6 +69,14 @@
         this was so Easy to do.
         -->
 
+<!--
+  since this block element is centered (with position/left/translate), the table is lifted out of the dom.
+  so any other block elements will show up above it.
+
+  and since the home and settings icons are floated (with w3-left and w3-right), the block level element at the bottom
+  will show up between the buttons. (depending on the size of the block).
+
+-->
         <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0">
           <thead>
 
@@ -76,7 +84,7 @@
             <td>
               <button class="w3-button w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
             </td>
-            <td> ({{ currentIndex + 1 }}/{{ words.length }})</td>
+            <td> </td>
 
             <td colspan="8" class="w3-center">
                   <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize">
@@ -90,6 +98,11 @@
           </tr>
           </thead>
         </table>
+
+<!--        see comment above the table as to why this shows up at the top.-->
+        <div class="w3-center">
+            ({{ currentIndex + 1 }}/{{ words.length }})
+        </div>
       </div>
     </transition>
 
@@ -98,6 +111,13 @@
 
 <script setup>
 import {computed, ref} from "vue";
+
+const props=defineProps({
+  listName: {
+    type: String,
+    default: "kinder"
+  }
+})
 
 // import { UseSwipeDirection } from '@vueuse/core'
 import {useSwipe} from "@vueuse/core"
@@ -112,6 +132,18 @@ const second = ["always", "around", "because", "been", "before", "best", "both",
 const third = ["about", "better", "bring", "carry", "clean", "cut", "done", "draw", "drink", "eight", "fall", "far", "full", "got", "grow", "hold", "hot", "hurt", "if", "keep", "kind", "laugh", "light", "long", "much", "myself", "never", "only", "own", "pick", "seven", "shall", "show", "six", "small", "start", "ten", "today", "together", "try", "warm"]
 const nouns = ["A", "Pteradactyl", ...shuffle(["apple", "baby", "back", "ball", "bear", "bed", "bell", "bird", "birthday", "boat", "box", "boy", "bread", "brother", "cake", "car", "cat", "chair", "chicken", "children", "Christmas", "coat", "corn", "cow", "day", "dog", "doll", "door", "duck", "egg", "eye", "farm", "farmer", "father", "feet", "fire", "fish", "floor", "flower", "game", "garden", "girl", "goodbye", "grass", "ground", "hand", "head", "hill", "home", "horse", "house", "kitty", "leg", "letter", "man", "men", "milk", "money", "morning", "mother", "name", "nest", "night", "paper", "party", "picture", "pig", "rabbit", "rain", "ring", "robin", "Santa Claus", "school", "seed", "sheep", "shoe", "sister", "snow", "song", "squirrel", "stick", "street", "sun", "table", "thing", "time", "top", "toy", "tree", "watch", "water", "way", "wind", "window", "wood"])]
 const wordsFromSomewhere = ["a", "it", "on", "the", "we", "for", "that", "they", "I", "in", "to", "he", "are", "you", "have", "with", "at", "is", "and", "be", "was", "she", "this", "from"]
+
+
+const dictionary = {
+  "prek": prek,
+  "kinder": kinder,
+  "first": first,
+  "second": second,
+  "third": third,
+  "nouns": nouns,
+  "wordsFromSomewhere": wordsFromSomewhere
+}
+
 
 const card = ref(null)
 
@@ -160,10 +192,14 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 })
 
 
-const words = nouns
+const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
 
 const wordBasedFontSize = computed(() => {
-  const wordLength = words[currentIndex.value].length;
+
+  if (! words.value) {
+    return "w3-super";
+  }
+  const wordLength = words.value[currentIndex.value].length;
 
   if (wordLength < 8) {
     return "w3-super"
