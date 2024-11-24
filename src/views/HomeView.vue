@@ -9,7 +9,7 @@
         <h3>Site Words!</h3>
         <nav>
           <RouterLink to="/">Welcome</RouterLink> &nbsp;
-          <RouterLink to="/about">Kinder</RouterLink>
+          <RouterLink to="/kinder">Kinder</RouterLink>
         </nav>
       </div>
     </header>

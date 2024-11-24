@@ -26,15 +26,16 @@
 
   <style>
       html, body {
-          height:100%;
-          width: 100vw;
-          overflow:hidden;  // trying to prevents weird issue with translating a card off the screen changes gthe viewport
+          height:100dvh;
+          width: 100dvw;
+          // so this overflow:hidden doesn't prevent the problem, and it also prevents scrolling on the "home" page.
+          //overflow:hidden;  // trying to prevents weird issue with translating a card off the screen changes gthe viewport
           // https://stackoverflow.com/questions/57686840/why-does-transform-translatex-affect-a-fixed-elements-height-on-mobile
           // it doesn't work, but maybe prevents some other problem.
       }
 
       .full-height {
-          height: 100%;
+          height: 100dvh;
       }
   </style>
 </html>

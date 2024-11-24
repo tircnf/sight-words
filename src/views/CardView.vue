@@ -31,12 +31,17 @@
 
 
         <RouterLink to="/" v-slot="routerProps">
+<!--
+  the body of the card can sit on top of these buttons and make them impossible to click.
+  hard to see without modifying the bg color of the body.
+  raise them up a bit.
+-->
             <button
                 class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
                 @click="routerProps.navigate"
-                style="cursor:pointer"
+                style="cursor:pointer; position: relative; z-index: 10"
             >
-              <i class="fa fa-home"></i>
+              &nbsp;<i class="fa fa-home"></i>&nbsp;
             </button>
         </RouterLink>
 
@@ -44,7 +49,7 @@
         <button
             class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
             @click="settings()"
-            style="cursor:pointer"
+            style="cursor:pointer; position: relative; z-index: 10"
         >
           &nbsp;<i class="fa fa-gear"></i>&nbsp;
         </button>
@@ -58,12 +63,18 @@
           </div>
         </div>
 
-        <table class="center w3-hide-small" style="width:100%; table-layout:fixed">
+        <!--    <br>-->
+        <!--
+        people say not use tables for layout.  I have to think they are wrong.
+        this was so Easy to do.
+        -->
+
+        <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0">
           <thead>
 
           <tr>
             <td>
-              <button class="w3-button w3-orange" @click="nextWord(-1)">&#10094;</button>
+              <button class="w3-button w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
             </td>
             <td> ({{ currentIndex + 1 }}/{{ words.length }})</td>
 
@@ -74,41 +85,14 @@
             </td>
             <td> &nbsp</td>
             <td style="text-align:right">
-              <button class="w3-button w3-orange" @click="nextWord(+1)">&#10095;</button>
+              <button class="w3-button w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;</button>
             </td>
           </tr>
           </thead>
         </table>
       </div>
-
-
     </transition>
 
-    <!--    <br>-->
-    <!--
-    people say not use tables for layout.  I have to think they are wrong.
-    this was so Easy to do.
-    -->
-    <!--    <div xv-else class="w3-content w3-card-4 w3-yellow w3-round-xxlarge xfull-height">-->
-    <!--      <table class="" style="width:100%; table-layout:fixed">-->
-    <!--        <tr>-->
-    <!--          <td>-->
-    <!--            <button class="w3-button w3-orange" @click="nextWord(-1)">&#10094;</button>-->
-    <!--          </td>-->
-    <!--          <td> ({{ currentIndex + 1 }}/25)</td>-->
-
-    <!--          <td colspan="8" class="w3-center">-->
-    <!--          <span class="xw3-xxxlarge xw3-jumbo" style="font-size:15vw">-->
-    <!--          {{ words[currentIndex] }}-->
-    <!--          </span>-->
-    <!--          </td>-->
-    <!--          <td> &nbsp</td>-->
-    <!--          <td style="text-align:right" >-->
-    <!--            <button class="w3-button w3-orange"   @click="nextWord(+1)">&#10095;</button>-->
-    <!--          </td>-->
-    <!--        </tr>-->
-    <!--      </table>-->
-    <!--    </div>-->
   </div>
 </template>
 
@@ -137,13 +121,36 @@ const swipeName = ref("look-right")
 
 window.foo = card
 
+let initialX, initialY;
+
 const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
   passive: false,
+  threshold: 5,
   onSwipeStart(e) {
+    // e.preventDefault() // prevents scrolling.
+
+    initialX = e.touches[0].clientX - card.value.offsetLeft;
+    initialY = e.touches[0].clientY - card.value.offsetTop;
   },
-  onSwipe(e) {
+  onSwipe(event) {
+   // event.preventDefault();
+
+    const currentX = event.touches[0].clientX - initialX;
+    const currentY = event.touches[0].clientY - initialY;
+
+    // Update the div's position
+    card.value.style.left = currentX + "px";
+    // card.value.style.top = currentY + "px";
+
+
+    // debugger;
   },
   onSwipeEnd(e, direction) {
+    if (Math.abs(lengthX.value) < 50) {
+      card.value.style.left = null;
+      return
+      // card.value.style.top = 0;
+    }
     if (direction === "left") {
       nextWord(+1)
     } else if (direction === "right") {
@@ -173,7 +180,7 @@ function shuffle(array) {
   let currentIndex = array.length;
 
   // While there remain elements to shuffle...
-  while (currentIndex != 0) {
+  while (currentIndex !== 0) {
 
     // Pick a remaining element...
     let randomIndex = Math.floor(Math.random() * currentIndex);
@@ -196,6 +203,7 @@ function nextWord(count) {
     swipeName.value = "look-right"
   }
 
+  // hiding the card causes the animations to run.
   show.value = false;
 
   currentIndex.value += count;
