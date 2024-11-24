@@ -54,6 +54,24 @@ const router = createRouter({
       component: () => import('../views/CardView.vue'),
       props: {listName: "third"}
     },
+    {
+      path: '/nouns',
+      name: 'nouns',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "nouns"}
+    },
+    {
+      path: '/all',
+      name: 'all',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "all"}
+    },
   ],
 })
 

@@ -13,6 +13,8 @@
           <RouterLink to="/first">First</RouterLink> &nbsp;
           <RouterLink to="/second">Second</RouterLink> &nbsp;
           <RouterLink to="/third">Third</RouterLink> &nbsp;
+          <RouterLink to="/nouns">Nouns</RouterLink> &nbsp;
+          <RouterLink to="/all">ALL</RouterLink> &nbsp;
         </nav>
       </div>
     </header>
