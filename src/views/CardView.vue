@@ -31,18 +31,18 @@
 
 
         <RouterLink to="/" v-slot="routerProps">
-<!--
-  the body of the card can sit on top of these buttons and make them impossible to click.
-  hard to see without modifying the bg color of the body.
-  raise them up a bit.
--->
-            <button
-                class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-                @click="routerProps.navigate"
-                style="cursor:pointer; position: relative; z-index: 10"
-            >
-              &nbsp;<i class="fa fa-home"></i>&nbsp;
-            </button>
+          <!--
+            the body of the card can sit on top of these buttons and make them impossible to click.
+            hard to see without modifying the bg color of the body.
+            raise them up a bit.
+          -->
+          <button
+              class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
+              @click="routerProps.navigate"
+              style="cursor:pointer; position: relative; z-index: 10"
+          >
+            &nbsp;<i class="fa fa-home"></i>&nbsp;
+          </button>
         </RouterLink>
 
 
@@ -69,14 +69,14 @@
         this was so Easy to do.
         -->
 
-<!--
-  since this block element is centered (with position/left/translate), the table is lifted out of the dom.
-  so any other block elements will show up above it.
+        <!--
+          since this block element is centered (with position/left/translate), the table is lifted out of the dom.
+          so any other block elements will show up above it.
 
-  and since the home and settings icons are floated (with w3-left and w3-right), the block level element at the bottom
-  will show up between the buttons. (depending on the size of the block).
+          and since the home and settings icons are floated (with w3-left and w3-right), the block level element at the bottom
+          will show up between the buttons. (depending on the size of the block).
 
--->
+        -->
         <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0">
           <thead>
 
@@ -84,7 +84,7 @@
             <td>
               <button class="w3-button w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
             </td>
-            <td> </td>
+            <td></td>
 
             <td colspan="8" class="w3-center">
                   <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize">
@@ -99,9 +99,9 @@
           </thead>
         </table>
 
-<!--        see comment above the table as to why this shows up at the top.-->
+        <!--        see comment above the table as to why this shows up at the top.-->
         <div class="w3-center">
-            ({{ currentIndex + 1 }}/{{ words.length }})
+          ({{ currentIndex + 1 }}/{{ words.length }})
         </div>
       </div>
     </transition>
@@ -112,7 +112,7 @@
 <script setup>
 import {computed, ref} from "vue";
 
-const props=defineProps({
+const props = defineProps({
   listName: {
     type: String,
     default: "kinder"
@@ -121,26 +121,9 @@ const props=defineProps({
 
 // import { UseSwipeDirection } from '@vueuse/core'
 import {useSwipe} from "@vueuse/core"
+import {useWordStore} from "@/stores/words.js";
 
-
-const prek = ["a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I", "in", "is", "it", "jump", "little", "look", "make", "me", "my", "not", "one", "play", "red", "run", "said", "see", "the", "three", "to", "two", "up", "we", "where", "yellow", "you"]
-const kinder = ["all", "am", "are", "at", "ate", "be", "black", "brown", "but", "came", "did", "do", "eat", "four", "get", "good", "have", "he", "into", "like", "must", "new", "no", "now", "on", "our", "out", "please", "pretty", "ran", "ride", "saw", "say", "she", "so", "soon", "that", "there", "they", "this", "too", "under", "want", "was", "well", "went", "what", "white", "who", "will", "with", "yes"]
-const first = ["after", "again", "an", "any", "as", "ask", "by", "could", "every", "fly", "from", "give", "going", "had", "has", "her", "him", "his", "how", "just", "know", "let", "live", "may", "of", "old", "once", "open", "over", "put", "round", "some", "stop", "take", "thank", "them", "then", "think", "walk", "were", "when"]
-const second = ["always", "around", "because", "been", "before", "best", "both", "buy", "call", "cold", "does", "don’t", "fast", "first", "five", "found", "gave", "goes", "green", "its", "made", "many", "off", "or", "pull", "read", "right", "sing", "sit", "sleep", "tell", "their", "these", "those", "upon", "us", "use", "very", "wash", "which", "why", "wish", "work", "would", "write", "your"]
-const third = ["about", "better", "bring", "carry", "clean", "cut", "done", "draw", "drink", "eight", "fall", "far", "full", "got", "grow", "hold", "hot", "hurt", "if", "keep", "kind", "laugh", "light", "long", "much", "myself", "never", "only", "own", "pick", "seven", "shall", "show", "six", "small", "start", "ten", "today", "together", "try", "warm"]
-const nouns = ["apple", "baby", "back", "ball", "bear", "bed", "bell", "bird", "birthday", "boat", "box", "boy", "bread", "brother", "cake", "car", "cat", "chair", "chicken", "children", "Christmas", "coat", "corn", "cow", "day", "dog", "doll", "door", "duck", "egg", "eye", "farm", "farmer", "father", "feet", "fire", "fish", "floor", "flower", "game", "garden", "girl", "goodbye", "grass", "ground", "hand", "head", "hill", "home", "horse", "house", "kitty", "leg", "letter", "man", "men", "milk", "money", "morning", "mother", "name", "nest", "night", "paper", "party", "picture", "pig", "rabbit", "rain", "ring", "robin", "Santa Claus", "school", "seed", "sheep", "shoe", "sister", "snow", "song", "squirrel", "stick", "street", "sun", "table", "thing", "time", "top", "toy", "tree", "watch", "water", "way", "wind", "window", "wood"]
-
-
-const dictionary = {
-  "prek": prek,
-  "kinder": kinder,
-  "first": first,
-  "second": second,
-  "third": third,
-  "nouns": nouns,
-  "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns]
-}
-
+const wordStore = useWordStore()
 
 const card = ref(null)
 
@@ -162,7 +145,7 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
     initialY = e.touches[0].clientY - card.value.offsetTop;
   },
   onSwipe(event) {
-   // event.preventDefault();
+    // event.preventDefault();
 
     const currentX = event.touches[0].clientX - initialX;
     const currentY = event.touches[0].clientY - initialY;
@@ -189,11 +172,12 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 })
 
 
-const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
+// const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
+const words = computed(() => wordStore.getList(props.listName))
 
 const wordBasedFontSize = computed(() => {
 
-  if (! words.value) {
+  if (!words.value) {
     return "w3-super";
   }
   const wordLength = words.value[currentIndex.value].length;

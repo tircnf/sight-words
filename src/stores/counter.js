@@ -8,8 +8,7 @@ export const useCounterStore = defineStore('counter', () => {
     count.value++
   }
 
-  const kinderWords = ['hello', 'hi', 'hey', 'howdy'];
-  const firstGradeWords = ['apple', 'banana', 'carrot', 'dog'];
+
 
 
 
