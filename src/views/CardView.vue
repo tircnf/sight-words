@@ -82,7 +82,7 @@
 
           <tr>
             <td>
-              <button class="w3-button w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
+              <button class="w3-button w3-xxxlarge w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
             </td>
             <td></td>
 
@@ -93,7 +93,7 @@
             </td>
             <td> &nbsp</td>
             <td style="text-align:right">
-              <button class="w3-button w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;</button>
+              <button class="w3-button w3-xxxlarge w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;</button>
             </td>
           </tr>
           </thead>
@@ -173,7 +173,7 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 
 
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
-const words = computed(() => wordStore.getList(props.listName))
+const words = computed(() => ["A", "Pteradactyl", "bioluminescence", ...shuffle(wordStore.getList(props.listName))])
 
 const wordBasedFontSize = computed(() => {
 

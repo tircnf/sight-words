@@ -4,6 +4,9 @@ import {defineStore} from "pinia";
 export const useWordStore = defineStore('words', () => {
 
 
+    // pull in these words intead:
+    // https://sightwords.com/sight-words/fry/
+
     const prek = [
         "a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I",
         "in", "is", "it", "jump", "little", "look", "make", "me", "my", "not", "one", "play", "red", "run", "said",
@@ -58,6 +61,8 @@ export const useWordStore = defineStore('words', () => {
         "nouns": nouns,
         "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns]
     }
+
+    dictionary.short = dictionary.all.filter(word=> word.length <=3)
 
     function shuffle(array) {
         let currentIndex = array.length;

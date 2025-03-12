@@ -19,6 +19,16 @@ const router = createRouter({
       props: {listName: "prek"}
     },
     {
+      path: '/short',
+      name: 'short',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: {listName: "short"}
+    },
+
+    {
       path: '/kinder',
       name: 'kinder',
       // route level code-splitting
