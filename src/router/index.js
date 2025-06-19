@@ -10,6 +10,19 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/alphabet/:index?',
+      name: 'alphabet',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/CardView.vue'),
+      props: (route) => ({
+        ...route.params,  // mimics props: true
+        listName: "alphabet",  // adds custom listname
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+    },
+    {
       path: '/pre-k/:index?',
       name: 'pre-k',
       // route level code-splitting

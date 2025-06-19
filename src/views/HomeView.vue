@@ -8,6 +8,7 @@
       <div class="w3-container w3-content w3-indigo">
         <h3>Sight Words!</h3>
         <nav>
+          <RouterLink to="/alphabet">Alphabet</RouterLink> &nbsp;
           <RouterLink to="/pre-k">Pre-K</RouterLink> &nbsp;
           <RouterLink to="/short">Short words</RouterLink> &nbsp;
           <RouterLink to="/kinder">Kinder</RouterLink> &nbsp;

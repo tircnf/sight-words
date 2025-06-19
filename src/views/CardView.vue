@@ -208,7 +208,7 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 const baseWords = ["A", "Pteradactyl", "bioluminescense"]
 
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
-const words = computed(() => [...baseWords,  ...shuffle(wordStore.getList(props.listName))])
+const words = computed(() => [...(props.listName === "alphabet" ? "" : baseWords),  ...shuffle(wordStore.getList(props.listName))])
 
 const wordBasedFontSize = computed(() => {
 

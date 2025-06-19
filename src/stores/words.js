@@ -7,6 +7,9 @@ export const useWordStore = defineStore('words', () => {
     // pull in these words intead:
     // https://sightwords.com/sight-words/fry/
 
+    const alphabet = ["A", "B", "C", "D", "D", "F", "G", "H", "I", "J", "K", "L",
+        "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
     const prek = [
         "a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I",
         "in", "is", "it", "jump", "little", "look", "make", "me", "my", "not", "one", "play", "red", "run", "said",
@@ -53,6 +56,7 @@ export const useWordStore = defineStore('words', () => {
 
 
     const dictionary = {
+        "alphabet": alphabet,
         "prek": prek,
         "kinder": kinder,
         "first": first,
@@ -62,7 +66,7 @@ export const useWordStore = defineStore('words', () => {
         "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns]
     }
 
-    dictionary.short = dictionary.all.filter(word=> word.length <=3)
+    dictionary.short = dictionary.all.filter(word => word.length <= 3)
 
     function shuffle(array) {
         let currentIndex = array.length;
