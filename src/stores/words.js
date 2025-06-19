@@ -83,7 +83,7 @@ export const useWordStore = defineStore('words', () => {
     }
 
     function getList(listName) {
-        return dictionary[listName]
+        return [...dictionary[listName]]
     }
 
 

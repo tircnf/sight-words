@@ -10,77 +10,115 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/pre-k',
+      path: '/pre-k/:index?',
       name: 'pre-k',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "prek"}
+      props: (route) => ({
+        ...route.params,  // mimics props: true
+        listName: "prek",  // adds custom listname
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
     },
     {
-      path: '/short',
+      path: '/short/:index?',
       name: 'short',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "short"}
+      props: (route) => ({
+        ...route.params,
+        listName: "short",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
     },
 
     {
-      path: '/kinder',
+      path: '/kinder/:index?',
       name: 'kinder',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "kinder"}
+      props: (route) => ({
+        ...route.params,
+        listName: "kinder",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+
     },
     {
-      path: '/first',
+      path: '/first/:index?',
       name: 'first',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "first"}
+      props: (route) => ({
+        ...route.params,
+        listName: "first",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+
     },
     {
-      path: '/second',
+      path: '/second/:index?',
       name: 'second',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "second"}
+      props: (route) => ({
+        ...route.params,
+        listName: "second",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+
     },
     {
-      path: '/third',
+      path: '/third/:index?',
       name: 'third',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "third"}
+      props: (route) => ({
+        ...route.params,
+        listName: "third",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+
     },
     {
-      path: '/nouns',
+      path: '/nouns/index?',
       name: 'nouns',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "nouns"}
+      props: (route) => ({
+        ...route.params,
+        listName: "nouns",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+
     },
     {
-      path: '/all',
+      path: '/all/:index?',
       name: 'all',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CardView.vue'),
-      props: {listName: "all"}
+      props: (route) => ({
+        ...route.params,
+        listName: "all",
+        index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+      })
+
     },
   ],
 })

@@ -88,7 +88,7 @@
 
             <td colspan="8" class="w3-center">
                   <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize">
-                  {{ words[currentIndex] }}
+                  {{ words[props.index] }}
                   </span>
             </td>
             <td> &nbsp</td>
@@ -101,7 +101,7 @@
 
         <!--        see comment above the table as to why this shows up at the top.-->
         <div class="w3-center">
-          ({{ currentIndex + 1 }}/{{ words.length }})
+          ({{ props.index + 1 }}/{{ words.length }})
         </div>
       </div>
     </transition>
@@ -116,12 +116,45 @@ const props = defineProps({
   listName: {
     type: String,
     default: "kinder"
+  },
+  index: {
+    type: Number,
+    default: 0
   }
 })
+
+
+// random with a seed.
+// // https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
+
+function newRandom(a, b, c, d) {
+  const foo= function() {
+    a |= 0; b |= 0; c |= 0; d |= 0;
+    let t = (a + b | 0) + d | 0;
+    d = d + 1 | 0;
+    a = b ^ b >>> 9;
+    b = c + (c << 3) | 0;
+    c = (c << 21 | c >>> 11);
+    c = c + t | 0;
+    return (t >>> 0) / 4294967296;
+  }
+
+  // if the seed values are not random enough,
+  // the first 15 or so entries repeat a lot.
+  // just grab 100 right off the top.
+  for(let x=0; x<1000; x++) {
+    foo()
+  }
+
+  return foo
+}
+
+
 
 // import { UseSwipeDirection } from '@vueuse/core'
 import {useSwipe} from "@vueuse/core"
 import {useWordStore} from "@/stores/words.js";
+import router from "@/router/index.js";
 
 const wordStore = useWordStore()
 
@@ -172,15 +205,17 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 })
 
 
+const baseWords = ["A", "Pteradactyl", "bioluminescense"]
+
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
-const words = computed(() => ["A", "Pteradactyl", "bioluminescence", ...shuffle(wordStore.getList(props.listName))])
+const words = computed(() => [...baseWords,  ...shuffle(wordStore.getList(props.listName))])
 
 const wordBasedFontSize = computed(() => {
 
   if (!words.value) {
     return "w3-super";
   }
-  const wordLength = words.value[currentIndex.value].length;
+  const wordLength = words.value[props.index].length;
 
   if (wordLength < 8) {
     return "w3-super"
@@ -194,22 +229,25 @@ const wordBasedFontSize = computed(() => {
 })
 
 
-
-const currentIndex = ref(0);
+// store the in local storage.
+const seed=0
 
 function shuffle(array) {
+
+  const random = newRandom(seed);
+
   let currentIndex = array.length;
 
   // While there remain elements to shuffle...
   while (currentIndex !== 0) {
-
     // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
+    let randomIndex = Math.floor(random() * currentIndex);
     currentIndex--;
 
     // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+    // where did I find this?  https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+    // javascript destructuring assignment.
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
 
   return array;
@@ -227,12 +265,16 @@ function nextWord(count) {
   // hiding the card causes the animations to run.
   show.value = false;
 
-  currentIndex.value += count;
-  if (currentIndex.value < 0) {
-    currentIndex.value = words.value.length - 1;
-  } else if (currentIndex.value >= words.value.length) {
-    currentIndex.value = 0;
+  let someValue = props.index + count
+  //currentIndex.value += count;
+  if (someValue < 0) {
+    someValue = words.value.length - 1;
+  } else if (someValue >= words.value.length) {
+    someValue = 0;
   }
+
+  router.push({params: {index: someValue}})
+
 
   setTimeout(() => {
     show.value = true
