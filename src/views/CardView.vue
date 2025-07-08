@@ -48,10 +48,10 @@
 
         <button
             class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-            @click="settings()"
+            @click="reshuffle()"
             style="cursor:pointer; position: relative; z-index: 10"
         >
-          &nbsp;<i class="fa fa-gear"></i>&nbsp;
+          &nbsp;<i class="fa fa-random"></i>&nbsp;
         </button>
 
         <div class="w3-hide-large w3-hide-medium w3-clear w3-container w3-xxlarge">
@@ -100,7 +100,7 @@
         </table>
 
         <!--        see comment above the table as to why this shows up at the top.-->
-        <div class="w3-center">
+        <div class="w3-center" :title="seed">
           ({{ props.index + 1 }}/{{ words.length }})
         </div>
       </div>
@@ -152,7 +152,8 @@ function newRandom(a, b, c, d) {
 
 
 // import { UseSwipeDirection } from '@vueuse/core'
-import {useSwipe} from "@vueuse/core"
+import {useSwipe, useStorage} from "@vueuse/core"
+
 import {useWordStore} from "@/stores/words.js";
 import router from "@/router/index.js";
 
@@ -163,8 +164,6 @@ const card = ref(null)
 const show = ref(true)
 
 const swipeName = ref("look-right")
-
-window.foo = card
 
 let initialX, initialY;
 
@@ -191,6 +190,10 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
     // debugger;
   },
   onSwipeEnd(e, direction) {
+
+    // 50 is magic constant.  how far must you swipe a card before it
+    // changes cards after you let it go?
+    // if you are 50 pixels away from where you started, consider it swiped.
     if (Math.abs(lengthX.value) < 50) {
       card.value.style.left = null;
       return
@@ -203,7 +206,6 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
     }
   }
 })
-
 
 const baseWords = ["A", "Pteradactyl", "bioluminescense"]
 
@@ -230,11 +232,19 @@ const wordBasedFontSize = computed(() => {
 
 
 // store the in local storage.
-const seed=0
+const seed=useStorage('random-seed', 0)
+
+function reshuffle() {
+  // because the list of words is computed, and looks at seed, this should cause a reshuffle.
+  seed.value=new Date().getTime()
+
+  router.push({params: {index: 0}})
+
+}
 
 function shuffle(array) {
 
-  const random = newRandom(seed);
+  const random = newRandom(seed.value);
 
   let currentIndex = array.length;
 
@@ -277,6 +287,8 @@ function nextWord(count) {
 
 
   setTimeout(() => {
+    // show the card 150 ms later.  the hide animations should be done.
+    // now we use the 'show' animations.
     show.value = true
   }, 150)
 
@@ -317,6 +329,7 @@ function nextWord(count) {
 /*
   Enter and leave animations can use different
   durations and timing functions.
+  but these should match the timeout values in nextWord() function.
 */
 .look-right-enter-active, .look-left-enter-active {
   transition: all 0.150s ease-out;

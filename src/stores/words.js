@@ -57,7 +57,7 @@ export const useWordStore = defineStore('words', () => {
 
     const dictionary = {
         "alphabet": alphabet,
-        "prek": prek,
+        "pre-k": prek,
         "kinder": kinder,
         "first": first,
         "second": second,
