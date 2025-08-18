@@ -77,12 +77,12 @@
           will show up between the buttons. (depending on the size of the block).
 
         -->
-        <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0">
+        <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0" xborder="1">
           <thead>
 
           <tr>
             <td>
-              <button class="w3-button w3-xxxlarge w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
+              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge"  @click="nextWord(-1)">&#10094;</button>
             </td>
             <td></td>
 
@@ -93,7 +93,7 @@
             </td>
             <td> &nbsp</td>
             <td style="text-align:right">
-              <button class="w3-button w3-xxxlarge w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;</button>
+              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge"  @click="nextWord(+1)">&#10095;</button>
             </td>
           </tr>
           </thead>
@@ -111,6 +111,15 @@
 
 <script setup>
 import {computed, ref} from "vue";
+import {useSwipe, useStorage} from "@vueuse/core"
+
+import {useWordStore} from "@/stores/words.js";
+import router from "@/router/index.js";import { useWindowSize } from '@vueuse/core'
+
+const { width, height } = useWindowSize()
+
+
+
 
 const props = defineProps({
   listName: {
@@ -152,10 +161,6 @@ function newRandom(a, b, c, d) {
 
 
 // import { UseSwipeDirection } from '@vueuse/core'
-import {useSwipe, useStorage} from "@vueuse/core"
-
-import {useWordStore} from "@/stores/words.js";
-import router from "@/router/index.js";
 
 const wordStore = useWordStore()
 
@@ -167,17 +172,27 @@ const swipeName = ref("look-right")
 
 let initialX, initialY;
 
+let needsLandscape=computed(() => {
+    return width.value <= 600
+})
+
 const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
   passive: false,
   threshold: 5,
   onSwipeStart(e) {
-    // e.preventDefault() // prevents scrolling.
+    if (needsLandscape.value) {
+      // e.preventDefault()
+      return
+    }
 
     initialX = e.touches[0].clientX - card.value.offsetLeft;
     initialY = e.touches[0].clientY - card.value.offsetTop;
   },
   onSwipe(event) {
-    // event.preventDefault();
+    if (needsLandscape.value) {
+      // event.preventDefault()
+      return
+    }
 
     const currentX = event.touches[0].clientX - initialX;
     const currentY = event.touches[0].clientY - initialY;
@@ -190,6 +205,11 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
     // debugger;
   },
   onSwipeEnd(e, direction) {
+
+
+    if (needsLandscape.value) {
+      return
+    }
 
     // 50 is magic constant.  how far must you swipe a card before it
     // changes cards after you let it go?
@@ -272,16 +292,22 @@ function nextWord(count) {
     swipeName.value = "look-right"
   }
 
-  // hiding the card causes the animations to run.
-  show.value = false;
+
 
   let someValue = props.index + count
   //currentIndex.value += count;
   if (someValue < 0) {
-    someValue = words.value.length - 1;
+    card.value.style.left = null;
+
+    return
   } else if (someValue >= words.value.length) {
-    someValue = 0;
+    router.push("/")
+    return
+    // someValue = words.value.length;
   }
+
+  // hiding the card causes the animations to run.
+  show.value = false;
 
   router.push({params: {index: someValue}})
 
