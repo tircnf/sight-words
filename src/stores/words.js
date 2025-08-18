@@ -7,7 +7,7 @@ export const useWordStore = defineStore('words', () => {
     // pull in these words intead:
     // https://sightwords.com/sight-words/fry/
 
-    const alphabet = ["A", "B", "C", "D", "D", "F", "G", "H", "I", "J", "K", "L",
+    const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
         "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
     const prek = [
