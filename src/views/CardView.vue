@@ -82,7 +82,7 @@
 
           <tr>
             <td>
-              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge"  @click="nextWord(-1)">&#10094;</button>
+              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
             </td>
             <td></td>
 
@@ -93,7 +93,7 @@
             </td>
             <td> &nbsp</td>
             <td style="text-align:right">
-              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge"  @click="nextWord(+1)">&#10095;</button>
+              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;</button>
             </td>
           </tr>
           </thead>
@@ -114,11 +114,10 @@ import {computed, ref} from "vue";
 import {useSwipe, useStorage} from "@vueuse/core"
 
 import {useWordStore} from "@/stores/words.js";
-import router from "@/router/index.js";import { useWindowSize } from '@vueuse/core'
+import router from "@/router/index.js";
+import {useWindowSize} from '@vueuse/core'
 
-const { width, height } = useWindowSize()
-
-
+const {width, height} = useWindowSize()
 
 
 const props = defineProps({
@@ -137,8 +136,11 @@ const props = defineProps({
 // // https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
 
 function newRandom(a, b, c, d) {
-  const foo= function() {
-    a |= 0; b |= 0; c |= 0; d |= 0;
+  const foo = function () {
+    a |= 0;
+    b |= 0;
+    c |= 0;
+    d |= 0;
     let t = (a + b | 0) + d | 0;
     d = d + 1 | 0;
     a = b ^ b >>> 9;
@@ -151,13 +153,12 @@ function newRandom(a, b, c, d) {
   // if the seed values are not random enough,
   // the first 15 or so entries repeat a lot.
   // just grab 100 right off the top.
-  for(let x=0; x<1000; x++) {
+  for (let x = 0; x < 1000; x++) {
     foo()
   }
 
   return foo
 }
-
 
 
 // import { UseSwipeDirection } from '@vueuse/core'
@@ -172,8 +173,8 @@ const swipeName = ref("look-right")
 
 let initialX, initialY;
 
-let needsLandscape=computed(() => {
-    return width.value <= 600
+let needsLandscape = computed(() => {
+  return width.value <= 600
 })
 
 const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
@@ -227,10 +228,13 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
   }
 })
 
-const baseWords = ["A", "Pteradactyl", "bioluminescense"]
+const baseWords = [
+  "Pterodactyl",
+  "bioluminescence",
+]
 
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
-const words = computed(() => [...(props.listName === "alphabet" ? "" : baseWords),  ...shuffle(wordStore.getList(props.listName))])
+const words = computed(() => shuffle([...(props.listName === "alphabet" ? "" : baseWords), ...wordStore.getList(props.listName)]))
 
 const wordBasedFontSize = computed(() => {
 
@@ -246,17 +250,17 @@ const wordBasedFontSize = computed(() => {
   } else if (wordLength < 13) {
     return "w3-jumbo"
   } else {
-    return  "w3-xxxlarge"
+    return "w3-xxxlarge"
   }
 })
 
 
 // store the in local storage.
-const seed=useStorage('random-seed', 0)
+const seed = useStorage('random-seed', 0)
 
 function reshuffle() {
   // because the list of words is computed, and looks at seed, this should cause a reshuffle.
-  seed.value=new Date().getTime()
+  seed.value = new Date().getTime()
 
   router.push({params: {index: 0}})
 
@@ -291,7 +295,6 @@ function nextWord(count) {
   } else {
     swipeName.value = "look-right"
   }
-
 
 
   let someValue = props.index + count
