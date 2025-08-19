@@ -234,7 +234,25 @@ const baseWords = [
 ]
 
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
-const words = computed(() => shuffle([...(props.listName === "alphabet" ? "" : baseWords), ...wordStore.getList(props.listName)]))
+const words = computed(() =>  {
+
+  let wordList = wordStore.getList(props.listName)
+
+  // don't add the baseWords to the alphabet.
+  if (props.listName.indexOf("alphabet") === -1) {
+    // if the list is not alphabet, then add some base words.
+    wordList = [...baseWords, ...wordList]
+  }
+
+  // don't shuffle the alphabetAZ list.
+  if (props.listName !== "alphabetAZ") {
+    // shuffle it.
+    wordList = shuffle(wordList)
+  }
+
+  return wordList
+
+})
 
 const wordBasedFontSize = computed(() => {
 

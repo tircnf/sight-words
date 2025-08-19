@@ -1,4 +1,17 @@
 <script setup>
+
+const links={
+  'Alphabet A-Z': '/alphabetAZ',
+  alphabet: '/alphabet',
+  'Pre-K': '/pre-k',
+  'Short Words': '/short',
+  kinder: '/kinder',
+  first: '/first',
+  second: '/second',
+  third: '/third',
+  nouns: '/nouns',
+  all: '/all'
+}
 </script>
 
 <template>
@@ -14,15 +27,20 @@
       <nav>
         <ul style="padding: 0; margin: 1em 0 0 0; list-style: none;">
 
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/alphabet">Alphabet</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/pre-k">Pre-K</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/short">Short words</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/kinder">Kinder</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/first">First</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/second">Second</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/third">Third</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/nouns">Nouns</RouterLink> </li>
-          <li  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"><RouterLink style="text-decoration: none" to="/all">ALL</RouterLink> </li>
+          <template v-for="(link, name) in links" :key="name">
+
+            <router-link :to="link"
+                         v-slot=" {href, route, navigate, isActive, isExactActive}"
+                         custom>
+              <li @click="navigate"
+                  class="w3-yellow  w3-block w3-button w3-round-xxlarge w3-margin-bottom"
+              >
+                <a style="text-decoration: none" :href="href" @click="navigate">{{ name }}</a>
+              </li>
+
+            </router-link>
+
+          </template>
         </ul>
       </nav>
 

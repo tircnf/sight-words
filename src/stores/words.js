@@ -10,6 +10,10 @@ export const useWordStore = defineStore('words', () => {
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
         "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
+
+    const alphabetAZ = alphabet
+
+
     const prek = [
         "a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I",
         "in", "is", "it", "jump", "little", "look", "make", "me", "my", "not", "one", "play", "red", "run", "said",
@@ -56,6 +60,7 @@ export const useWordStore = defineStore('words', () => {
 
 
     const dictionary = {
+        "alphabetAZ": alphabetAZ,
         "alphabet": alphabet,
         "pre-k": prek,
         "kinder": kinder,
@@ -69,7 +74,7 @@ export const useWordStore = defineStore('words', () => {
     dictionary.short = dictionary.all.filter(word => word.length <= 3)
 
     function getList(listName) {
-        return [...dictionary[listName]]
+        return [...dictionary[listName] || ["List " + listName + " not found."]]
     }
 
 
