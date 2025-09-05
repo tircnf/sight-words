@@ -1,15 +1,12 @@
 <script setup>
+import NavBar from "@/views/NavBar.vue";
 </script>
 
 <template>
   <div>
 
     <header>
-      <div class="w3-container w3-content w3-indigo">
-        <h3>
-          <RouterLink to="/"> Sight Words!</RouterLink>
-        </h3>
-      </div>
+      <NavBar/>
     </header>
     <main class="w3-container w3-content w3-xlarge">
       <h1>Welcome</h1>

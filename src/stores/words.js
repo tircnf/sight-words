@@ -58,6 +58,19 @@ export const useWordStore = defineStore('words', () => {
         "tree", "watch", "water", "way", "wind", "window", "wood"
     ]
 
+    const additionProblems = Array.from({ length: 100 }, (_, i) => {
+        const a = Math.floor(i / 10);
+        const b = i % 10;
+        return { a, b, problem: `${a} + ${b}`, answer: a + b };
+    });
+
+    const multProblems = Array.from ({length: 110}, (_,i) => {
+        const a = Math.floor(i / 10);
+        const b = i % 10;
+        return { a, b, problem: `${a} &times; ${b}`, answer: a * b };
+    })
+
+
 
     const dictionary = {
         "alphabetAZ": alphabetAZ,
@@ -68,7 +81,9 @@ export const useWordStore = defineStore('words', () => {
         "second": second,
         "third": third,
         "nouns": nouns,
-        "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns]
+        "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns],
+        addition: additionProblems,
+        multiplication: multProblems
     }
 
     dictionary.short = dictionary.all.filter(word => word.length <= 3)

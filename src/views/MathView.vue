@@ -3,16 +3,10 @@
 import NavBar from "@/views/NavBar.vue";
 
 const links={
-  'Alphabet A-Z': '/alphabetAZ',
-  Alphabet: '/alphabet',
-  'Pre-K': '/pre-k',
-  'Short Words': '/short',
-  Kinder: '/kinder',
-  First: '/first',
-  Second: '/second',
-  Third: '/third',
-  Nouns: '/nouns',
-  All: '/all'
+  'Addition Math Facts': '/math/addition',
+  // 'Multiplication Tables 0-5': '/math/mult-0-5',
+  // 'Multiplication Tables 6-10': '/math/mult-6-10',
+  'Multiplication Tables 0-10': '/math/multiplication'
 }
 </script>
 

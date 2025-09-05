@@ -16,6 +16,19 @@ const router = createRouter({
             component: AboutView
         },
         {
+            path: '/math',
+            name: 'math',
+            component: () => import('../views/MathView.vue'),
+        },
+        {
+            path: '/math/:listName/:index?',
+            component: () => import('../views/NumberCardView.vue'),
+            props: (route) => ({
+                ...route.params,  // mimics props: true
+                index: route.params.index ? parseInt(route.params.index) : 0  // converts :index to a number.
+            })
+        },
+        {
             path: '/:listName/:index?',
             component: () => import('../views/CardView.vue'),
             props: (route) => ({
