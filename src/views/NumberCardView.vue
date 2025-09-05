@@ -20,7 +20,8 @@
     <transition :name="swipeName">
 
       <div v-if="show"
-          class="flip-card center"
+           ref="card"
+           class="flip-card center"
            :class="{flipped:flipped}"
            style="height: 80%;
            width: 96%;
@@ -28,8 +29,11 @@
            max-width: 960px;
            "
       >
-        <div class="flip-card-inner w3-card-4  w3-content w3-round-xxlarge">
+        <div class="flip-card-inner w3-card-4  w3-content w3-round-xxlarge"
+             ref="flipCardInner"
+        >
           <div class="flip-card-front w3-yellow w3-round-xxlarge"
+
           >
             <RouterLink to="/math" v-slot="routerProps">
               <!--
@@ -225,6 +229,7 @@ import {randomNumberGenerator as newRandom} from '@/stores/randomNumberGenerator
 const wordStore = useWordStore()
 
 const card = ref(null)
+const flipCardInner = ref(null)
 
 const show = ref(true)
 
@@ -233,6 +238,8 @@ const swipeName = ref("look-right")
 const flipped = ref(false)
 
 let initialX, initialY;
+let clientX
+let rotDeg
 
 let needsLandscape = computed(() => {
   return width.value <= 600
@@ -243,21 +250,42 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
   threshold: 5,
   onSwipeStart(e) {
     if (needsLandscape.value) {
-      // e.preventDefault()
       return
     }
 
+
+    clientX = e.touches[0].clientX
     initialX = e.touches[0].clientX - card.value.offsetLeft;
     initialY = e.touches[0].clientY - card.value.offsetTop;
+    // console.log("Swip start... initialX = ", initialX)
   },
   onSwipe(event) {
     if (needsLandscape.value) {
-      // event.preventDefault()
       return
     }
 
+    // if we are not flipped, modify the yrot value instead of the
+    // div position.
+
+
+    // distance the finger has moved.
+    const offsetX = event.touches[0].clientX - clientX
     const currentX = event.touches[0].clientX - initialX;
+
     const currentY = event.touches[0].clientY - initialY;
+
+
+    // 3 is a magic constant.  tring to scale the slide of your finger
+    // to the spinning of the card.
+    // smart guys would take the velocity of the slide into consideration).
+    if (!flipped.value) {
+      rotDeg = Math.max(Math.min(offsetX / 3,0), -180)
+      // console.log("Swiping:   ", clientX, offsetX, rotDeg)
+      flipCardInner.value.style.transform = "rotateY(" + rotDeg + "deg)"
+      flipCardInner.value.style.transition = "unset"
+      return
+    }
+
 
     // Update the div's position
     card.value.style.left = currentX + "px";
@@ -266,16 +294,27 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 
     // debugger;
   },
-  onSwipeEnd(e, direction) {
+  onSwipeEnd(event, direction) {
 
 
     if (needsLandscape.value) {
       return
     }
 
+    if (flipCardInner.value.style.transform) {
+      flipCardInner.value.style.transform = null
+      flipCardInner.value.style.transition = null
+      // console.log("Swip end. lengthX = ",lengthX.value)
+      if (rotDeg < -45) {
+        flipped.value = !flipped.value
+      }
+      return
+    }
+
     // 50 is magic constant.  how far must you swipe a card before it
     // changes cards after you let it go?
     // if you are 50 pixels away from where you started, consider it swiped.
+
     if (Math.abs(lengthX.value) < 50) {
       card.value.style.left = null;
       return
@@ -360,6 +399,10 @@ function nextWord(count) {
     swipeName.value = "look-left"
   } else {
     swipeName.value = "look-right"
+    if (!flipped.value) {
+      flipped.value = true;
+      return
+    }
   }
 
 
@@ -375,9 +418,6 @@ function nextWord(count) {
     // someValue = words.value.length;
   }
 
-  if (flipped.value) {
-    flipped.value=false;
-  }
 
   // hiding the card causes the animations to run.
   show.value = false;
@@ -388,6 +428,11 @@ function nextWord(count) {
   setTimeout(() => {
     // show the card 150 ms later.  the hide animations should be done.
     // now we use the 'show' animations.
+
+    if (flipped.value) {
+      flipped.value = false;
+    }
+
     show.value = true
   }, 150)
 
@@ -413,6 +458,15 @@ function nextWord(count) {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* if we are swiping, we don't want the transition transform.  we will set the rotateY based
+  on finger position.
+ */
+
+
+.flip-card-inner.swiping {
+  transition: unset
 }
 
 .flip-card.flipped .flip-card-inner {
