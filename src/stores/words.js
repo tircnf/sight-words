@@ -72,6 +72,8 @@ export const useWordStore = defineStore('words', () => {
 
     const doubles = additionProblems.filter(item=> item.a === item.b)
 
+    const multDoubles = multProblems.filter(item => item.a === item.b)
+
 
 
 
@@ -87,7 +89,8 @@ export const useWordStore = defineStore('words', () => {
         "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns],
         addition: additionProblems,
         multiplication: multProblems,
-        doubles: doubles
+        doubles: doubles,
+        multDoubles: multDoubles
     }
 
     dictionary.short = dictionary.all.filter(word => word.length <= 3)

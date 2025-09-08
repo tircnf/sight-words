@@ -93,8 +93,7 @@
                 <td></td>
 
                 <td colspan="8" class="w3-center">
-                  <span class="xw3-cursive w3-monospace bold"
-                        :class="wordBasedFontSize"
+                  <span class="xw3-cursive w3-monospace bold w3-mega"
                         v-html="words[props.index].problem"
                   />
 
@@ -116,29 +115,29 @@
 
           <div class="flip-card-back w3-pink w3-round-xxlarge"
           >
-            <RouterLink to="/" v-slot="routerProps">
-              <!--
-                the body of the card can sit on top of these buttons and make them impossible to click.
-                hard to see without modifying the bg color of the body.
-                raise them up a bit.
-              -->
-              <button
-                  class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-                  @click="routerProps.navigate"
-                  style="cursor:pointer; position: relative; z-index: 10"
-              >
-                &nbsp;<i class="fa fa-home"></i>&nbsp;
-              </button>
-            </RouterLink>
+<!--            <RouterLink to="/" v-slot="routerProps">-->
+<!--              &lt;!&ndash;-->
+<!--                the body of the card can sit on top of these buttons and make them impossible to click.-->
+<!--                hard to see without modifying the bg color of the body.-->
+<!--                raise them up a bit.-->
+<!--              &ndash;&gt;-->
+<!--              <button-->
+<!--                  class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"-->
+<!--                  @click="routerProps.navigate"-->
+<!--                  style="cursor:pointer; position: relative; z-index: 10"-->
+<!--              >-->
+<!--                &nbsp;<i class="fa fa-home"></i>&nbsp;-->
+<!--              </button>-->
+<!--            </RouterLink>-->
 
 
-            <button
-                class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-                @click="reshuffle()"
-                style="cursor:pointer; position: relative; z-index: 10"
-            >
-              &nbsp;<i class="fa fa-random"></i>&nbsp;
-            </button>
+<!--            <button-->
+<!--                class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"-->
+<!--                @click="reshuffle()"-->
+<!--                style="cursor:pointer; position: relative; z-index: 10"-->
+<!--            >-->
+<!--              &nbsp;<i class="fa fa-random"></i>&nbsp;-->
+<!--            </button>-->
 
             <div class="w3-hide-large w3-hide-medium w3-clear w3-container w3-xxlarge">
               <div>
@@ -174,7 +173,7 @@
                 <td></td>
 
                 <td colspan="8" class="w3-center">
-                  <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize"
+                  <span class="xw3-cursive w3-monospace bold w3-jumbo"
                      v-html="words[props.index].problem + ' = ' +  words[props.index].answer "
                   >
                   </span>

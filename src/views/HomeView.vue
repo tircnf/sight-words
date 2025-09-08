@@ -24,6 +24,7 @@ const links={
     </header>
     <main class="w3-container w3-content w3-xlarge">
       <nav>
+        <h2 class="w3-center w3-bold w3-text-deep-purple">Sight Words!</h2>
         <ul style="padding: 0; margin: 1em 0 0 0; list-style: none;">
 
           <template v-for="(link, name) in links" :key="name">

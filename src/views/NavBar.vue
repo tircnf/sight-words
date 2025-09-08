@@ -25,6 +25,8 @@ a {
 
 a.router-link-active {
   font-weight: bold;
+  font-size: larger;
+  color: yellow;
 }
 
 </style>
