@@ -4,9 +4,10 @@ import NavBar from "@/views/NavBar.vue";
 
 const links={
   'Addition Math Facts': '/math/addition',
+  'Addition Doubles': '/math/doubles',
   // 'Multiplication Tables 0-5': '/math/mult-0-5',
   // 'Multiplication Tables 6-10': '/math/mult-6-10',
-  'Multiplication Tables 0-10': '/math/multiplication'
+  'Multiplication Tables 0-10': '/math/multiplication',
 }
 </script>
 

@@ -61,14 +61,17 @@ export const useWordStore = defineStore('words', () => {
     const additionProblems = Array.from({ length: 100 }, (_, i) => {
         const a = Math.floor(i / 10);
         const b = i % 10;
-        return { a, b, problem: `${a} + ${b}`, answer: a + b };
+        return { a, b, method: '+', problem: `${a} + ${b}`, answer: a + b };
     });
 
     const multProblems = Array.from ({length: 110}, (_,i) => {
         const a = Math.floor(i / 10);
         const b = i % 10;
-        return { a, b, problem: `${a} &times; ${b}`, answer: a * b };
+        return { a, b, method: '*', problem: `${a} &times; ${b}`, answer: a * b };
     })
+
+    const doubles = additionProblems.filter(item=> item.a === item.b)
+
 
 
 
@@ -83,7 +86,8 @@ export const useWordStore = defineStore('words', () => {
         "nouns": nouns,
         "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns],
         addition: additionProblems,
-        multiplication: multProblems
+        multiplication: multProblems,
+        doubles: doubles
     }
 
     dictionary.short = dictionary.all.filter(word => word.length <= 3)

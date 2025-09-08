@@ -174,8 +174,9 @@
                 <td></td>
 
                 <td colspan="8" class="w3-center">
-                  <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize">
-                  {{ words[props.index].answer }}
+                  <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize"
+                     v-html="words[props.index].problem + ' = ' +  words[props.index].answer "
+                  >
                   </span>
                 </td>
                 <td> &nbsp</td>
@@ -329,7 +330,7 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
 })
 
 const baseWords = [
-  {problem: "43 + 19", answer: "62"},
+  // {problem: "43 + 19", answer: "62"},
 ]
 
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
@@ -355,7 +356,7 @@ const words = computed(() => {
 
 const wordBasedFontSize = computed(() => {
 
-  return "w3-super"
+  return "w3-mega"
 })
 
 
