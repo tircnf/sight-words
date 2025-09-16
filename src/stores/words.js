@@ -13,6 +13,12 @@ export const useWordStore = defineStore('words', () => {
 
     const alphabetAZ = alphabet
 
+    const funny = [
+        "Bamboozle", "Flibbertigibbet", "Nincompoop", "Skedaddle", "Hocus-pocus", "Lollygag",
+        "Gobsmacked", "Hootenanny", "Doohickey", "Kerfuffle", "Snollygoster", "Bumbershoot",
+        "Gobbledygook", "Poppycock", "Shenanigans", "Waddle", "Blubber", "Zany", "Boondoggle",
+        "Wackadoodle"
+    ]
 
     const prek = [
         "a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I",
@@ -58,23 +64,21 @@ export const useWordStore = defineStore('words', () => {
         "tree", "watch", "water", "way", "wind", "window", "wood"
     ]
 
-    const additionProblems = Array.from({ length: 100 }, (_, i) => {
+    const additionProblems = Array.from({length: 100}, (_, i) => {
         const a = Math.floor(i / 10);
         const b = i % 10;
-        return { a, b, method: '+', problem: `${a} + ${b}`, answer: a + b };
+        return {a, b, method: '+', problem: `${a} + ${b}`, answer: a + b};
     });
 
-    const multProblems = Array.from ({length: 110}, (_,i) => {
+    const multProblems = Array.from({length: 110}, (_, i) => {
         const a = Math.floor(i / 10);
         const b = i % 10;
-        return { a, b, method: '*', problem: `${a} &times; ${b}`, answer: a * b };
+        return {a, b, method: '*', problem: `${a} &times; ${b}`, answer: a * b};
     })
 
-    const doubles = additionProblems.filter(item=> item.a === item.b)
+    const doubles = additionProblems.filter(item => item.a === item.b)
 
     const multDoubles = multProblems.filter(item => item.a === item.b)
-
-
 
 
     const dictionary = {
@@ -87,6 +91,7 @@ export const useWordStore = defineStore('words', () => {
         "third": third,
         "nouns": nouns,
         "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns],
+        "funny": funny,
         addition: additionProblems,
         multiplication: multProblems,
         doubles: doubles,

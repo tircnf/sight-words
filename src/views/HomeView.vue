@@ -12,6 +12,7 @@ const links={
   Second: '/second',
   Third: '/third',
   Nouns: '/nouns',
+  Funny: '/funny',
   All: '/all'
 }
 </script>
