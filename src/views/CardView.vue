@@ -272,9 +272,9 @@ const wordBasedFontSize = computed(() => {
   }
 
   if (wordLength < 8) {
-    return "w3-super"
-  } else if (wordLength < 11) {
     return "w3-mega"
+  } else if (wordLength < 11) {
+    return "w3-super"
   } else if (wordLength < 13) {
     return "w3-jumbo"
   } else {
