@@ -244,8 +244,8 @@ const wordBasedFontSize = computed(() => {
   .w3-xxxlarge{font-size:48px!important}
   .w3-jumbo{font-size:64px!important}
    -- custom
-.w3-mega { font-size: 84px; }
-.w3-super { font-size: 120px; }
+.w3-super { font-size: 84px; }
+.w3-mega { font-size: 120px; }
 
    */
 
@@ -253,9 +253,9 @@ const wordBasedFontSize = computed(() => {
 
   if (width.value < 600) {
     if (wordLength < 4) {
-      return "w3-super"
-    } else if (wordLength < 6) {
       return "w3-mega"
+    } else if (wordLength < 6) {
+      return "w3-super"
     } else if (wordLength < 10) {
       return "w3-xxxlarge"
     } else if (wordLength < 13) {
@@ -376,11 +376,11 @@ function nextWord(count) {
 }
 
 
-.w3-mega {
+.w3-super {
   font-size: 84px;
 }
 
-.w3-super {
+.w3-mega {
   font-size: 120px;
 }
 
