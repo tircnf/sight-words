@@ -260,7 +260,7 @@ const wordBasedFontSize = computed(() => {
       return "w3-xxxlarge"
     } else if (wordLength < 12) {
       return "w3-xxlarge"
-    } else if (wordLength < 18) {
+    } else if (wordLength < 17) {
       return "w3-xlarge"
     } else {
       return "w3-large"
@@ -277,8 +277,10 @@ const wordBasedFontSize = computed(() => {
     return "w3-super"
   } else if (wordLength < 13) {
     return "w3-jumbo"
+  } else if (wordLength< 19) {
+      return "w3-xxxlarge"
   } else {
-    return "w3-xxxlarge"
+    return "w3-xxlarge"
   }
 })
 
