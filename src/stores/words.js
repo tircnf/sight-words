@@ -64,6 +64,14 @@ export const useWordStore = defineStore('words', () => {
         "tree", "watch", "water", "way", "wind", "window", "wood"
     ]
 
+    const m = Array.from({length: 20}, (_,i) => {
+        if (i===0) {
+            return "M"
+        } else {
+            return "M" + 'm'.repeat(i)
+        }
+    })
+
     const additionProblems = Array.from({length: 100}, (_, i) => {
         const a = Math.floor(i / 10);
         const b = i % 10;
@@ -92,6 +100,7 @@ export const useWordStore = defineStore('words', () => {
         "nouns": nouns,
         "all": [...prek, ...kinder, ...first, ...second, ...third, ...nouns],
         "funny": funny,
+        "m": m,
         addition: additionProblems,
         multiplication: multProblems,
         doubles: doubles,
