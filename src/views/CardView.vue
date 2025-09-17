@@ -214,13 +214,13 @@ const words = computed(() => {
   let wordList = wordStore.getList(props.listName)
 
   // don't add the baseWords to the alphabet.
-  if (props.listName.indexOf("alphabet") === -1) {
+  if (props.listName.indexOf("alphabet") === -1 && props.listName !== "m") {
     // if the list is not alphabet, then add some base words.
     wordList = [...baseWords, ...wordList]
   }
 
   // don't shuffle the alphabetAZ list.
-  if (props.listName !== "alphabetAZ") {
+  if (props.listName !== "alphabetAZ" && props.listName !=="m") {
     // shuffle it.
     wordList = shuffle(wordList)
   }
@@ -254,7 +254,7 @@ const wordBasedFontSize = computed(() => {
   if (width.value < 600) {
     if (wordLength < 4) {
       return "w3-mega"
-    } else if (wordLength < 6) {
+    } else if (wordLength < 5) {
       return "w3-super"
     } else if (wordLength < 9) {
       return "w3-xxxlarge"

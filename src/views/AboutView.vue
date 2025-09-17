@@ -1,5 +1,11 @@
 <script setup>
 import NavBar from "@/views/NavBar.vue";
+import {useRouter} from "vue-router";
+
+const router=useRouter()
+
+
+
 </script>
 
 <template>
@@ -18,7 +24,7 @@ import NavBar from "@/views/NavBar.vue";
         knew that someone out there would just offer up an easy sight word app for free without all the hoops.
 
       </p>
-      <p>
+      <p @click='router.push("/m")' >
         I was wrong. So, here it is.
       </p>
 
