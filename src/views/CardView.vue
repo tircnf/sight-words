@@ -29,80 +29,71 @@
           max-width: 960px;
           overflow: hidden">
 
-
-        <RouterLink to="/" v-slot="routerProps">
-          <!--
-            the body of the card can sit on top of these buttons and make them impossible to click.
-            hard to see without modifying the bg color of the body.
-            raise them up a bit.
-          -->
-          <button
-              class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-              @click="routerProps.navigate"
-              style="cursor:pointer; position: relative; z-index: 10"
-          >
-            &nbsp;<i class="fa fa-home"></i>&nbsp;
-          </button>
-        </RouterLink>
+          <div class="w3-flex" style="flex-direction: column; ">
 
 
-        <button
-            class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-            @click="reshuffle()"
-            style="cursor:pointer; position: relative; z-index: 10"
-        >
-          &nbsp;<i class="fa fa-random"></i>&nbsp;
-        </button>
+<!--
+            the z-index is required because the middle "div" is centered, position absolute,
+            and can overlay the home/shuffle buttons.
+-->
+            <div class="w3-flex" style="justify-content: space-around; z-index: 1; align-items: center;">
 
-        <div class="w3-hide-large w3-hide-medium w3-clear w3-container w3-xxlarge">
-          <div>
-            <p>
-              This page should be viewed in landscape mode. Try turning your phone sideways.
-            </p>
+
+              <RouterLink to="/" v-slot="routerProps">
+                <button
+                    class="w3-left xxxw3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
+                    @click="routerProps.navigate"
+                    style="cursor:pointer; margin-left: 3px"
+                >
+                  &nbsp;<i class="fa fa-home"></i>&nbsp;
+                </button>
+              </RouterLink>
+
+              <div class="" :title="seed">
+                ({{ props.index + 1 }}/{{ words.length }})
+              </div>
+
+
+              <button
+                  class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
+                  @click="reshuffle()"
+                  style="cursor:pointer; "
+              >
+                &nbsp;<i class="fa fa-random"></i>&nbsp;
+              </button>
+            </div>
+
+            <div class="w3-yellow w3-flex center"
+                 style="align-items: center; justify-content: space-between; width: 100%;"
+            >
+              <button class="xxw3-margin-left w3-button w3-xxlarge w3-orange w3-round-xxlarge "
+                      @click="nextWord(-1)"
+                      style="margin-left: 3px; "
+              >
+                &#10094;
+              </button>
+
+              <div>
+
+<!--                to do:  use this div to measure the size of the word, then use a transform to set the size of the span-->
+                <div ref="measureDiv" style="visibility: hidden; position: absolute"><span class="xw3-cursive w3-monospace bold w3-xxxlarge"
+                           >{{ words[props.index] }}</span></div>
+
+                <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize"
+                      style="word-break: break-word">{{ words[props.index] }}</span>
+              </div>
+
+
+              <button class="xxw3-margin-right w3-button w3-xxlarge w3-orange w3-round-xxlarge"
+                      @click="nextWord(+1)"
+                      style="margin-right: 3px;"
+              >
+                &#10095;
+              </button>
+            </div>
 
           </div>
-        </div>
 
-        <!--    <br>-->
-        <!--
-        people say not use tables for layout.  I have to think they are wrong.
-        this was so Easy to do.
-        -->
-
-        <!--
-          since this block element is centered (with position/left/translate), the table is lifted out of the dom.
-          so any other block elements will show up above it.
-
-          and since the home and settings icons are floated (with w3-left and w3-right), the block level element at the bottom
-          will show up between the buttons. (depending on the size of the block).
-
-        -->
-        <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0" xborder="1">
-          <thead>
-
-          <tr>
-            <td>
-              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;</button>
-            </td>
-            <td></td>
-
-            <td colspan="8" class="w3-center">
-                  <span class="xw3-cursive w3-monospace bold" :class="wordBasedFontSize">
-                  {{ words[props.index] }}
-                  </span>
-            </td>
-            <td> &nbsp</td>
-            <td style="text-align:right">
-              <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;</button>
-            </td>
-          </tr>
-          </thead>
-        </table>
-
-        <!--        see comment above the table as to why this shows up at the top.-->
-        <div class="w3-center" :title="seed">
-          ({{ props.index + 1 }}/{{ words.length }})
-        </div>
       </div>
     </transition>
 
@@ -111,11 +102,13 @@
 
 <script setup>
 import {computed, ref} from "vue";
-import {useSwipe, useStorage} from "@vueuse/core"
+import {useSwipe, useStorage, useElementSize, useWindowSize} from "@vueuse/core"
+
 
 import {useWordStore} from "@/stores/words.js";
 import router from "@/router/index.js";
-import {useWindowSize} from '@vueuse/core'
+
+
 
 const {width, height} = useWindowSize()
 
@@ -132,7 +125,6 @@ const props = defineProps({
 })
 
 
-
 import {randomNumberGenerator as newRandom} from "@/stores/randomNumberGenerator.js";
 
 
@@ -141,6 +133,10 @@ import {randomNumberGenerator as newRandom} from "@/stores/randomNumberGenerator
 const wordStore = useWordStore()
 
 const card = ref(null)
+const measureDiv = ref(null)
+
+window.foo=measureDiv
+const {width : textWidth} = useElementSize(measureDiv)
 
 const show = ref(true)
 
@@ -149,6 +145,7 @@ const swipeName = ref("look-right")
 let initialX, initialY;
 
 let needsLandscape = computed(() => {
+  return false;
   return width.value <= 600
 })
 
@@ -209,7 +206,10 @@ const baseWords = [
 ]
 
 // const words = computed(() => ["A", "Pterodactyl", ...shuffle(dictionary[props.listName]||["" + props.listName + "Not Found" ])])
-const words = computed(() =>  {
+const words = computed(() => {
+
+  // return Array.from({length: 20}, (_, index) => "M".repeat(index + 1))
+  // return ["M","MM","MMM","MMMM","MMMMM","MMMMMM","MMMMMMM","MMMMMMMM","MMMMMMMMM","MMMMMMMMMM","MMMMMMMMMMM","MMMMMMMMMMMM","MMMMMMMMMMMMM"];
 
   let wordList = wordStore.getList(props.listName)
 
@@ -231,10 +231,45 @@ const words = computed(() =>  {
 
 const wordBasedFontSize = computed(() => {
 
+  /*
+  .w3-tiny{font-size:10px!important}
+  .w3-small{font-size:12px!important}
+  .w3-medium{font-size:15px!important}
+  .w3-large{font-size:18px!important}
+  .w3-xlarge{font-size:24px!important}
+  .w3-xxlarge{font-size:36px!important}
+
+
+
+  .w3-xxxlarge{font-size:48px!important}
+  .w3-jumbo{font-size:64px!important}
+   -- custom
+.w3-mega { font-size: 84px; }
+.w3-super { font-size: 120px; }
+
+   */
+
+  const wordLength = words.value[props.index].length;
+
+  if (width.value < 600) {
+    if (wordLength < 4) {
+      return "w3-super"
+    } else if (wordLength < 6) {
+      return "w3-mega"
+    } else if (wordLength < 10) {
+      return "w3-xxxlarge"
+    } else if (wordLength < 13) {
+      return "w3-xxlarge"
+    } else if (wordLength < 18) {
+      return "w3-xlarge"
+    } else {
+      return "w3-large"
+    }
+  }
+
   if (!words.value) {
     return "w3-super";
   }
-  const wordLength = words.value[props.index].length;
 
   if (wordLength < 8) {
     return "w3-super"
