@@ -2,21 +2,6 @@
 
   <div class="xw3-container w3-orange full-height" style="overflow:hidden;">
 
-    <!--    direction={{direction}} &#45;&#45; is={{isSwiping}} card = {{card}}-->
-
-    <!--    <div class="w3-container w3-hide-medium w3-hide-large w3-red">-->
-    <!--      <p>I am small a screen (phones)</p>-->
-    <!--    </div>-->
-
-    <!--    <div class="w3-container w3-hide-small w3-hide-large w3-green">-->
-    <!--      <p>I am a medium screens (tablets)</p>-->
-    <!--    </div>-->
-
-    <!--    <div class="w3-container w3-hide-small w3-hide-medium w3-blue">-->
-    <!--      <p>I am a large screens (laptops/desktop)</p>-->
-    <!--    </div>-->
-
-
     <transition :name="swipeName">
 
       <div v-if="show"
@@ -32,164 +17,180 @@
         <div class="flip-card-inner w3-card-4  w3-content w3-round-xxlarge"
              ref="flipCardInner"
         >
-          <div class="flip-card-front w3-yellow w3-round-xxlarge"
+          <div class="flip-card-front w3-yellow w3-round-xxlarge">
 
-          >
-            <RouterLink to="/math" v-slot="routerProps">
-              <!--
-                the body of the card can sit on top of these buttons and make them impossible to click.
-                hard to see without modifying the bg color of the body.
-                raise them up a bit.
-              -->
+            <div class="w3-flex" style="justify-content: space-around; z-index: 1; align-items: center;">
+              <RouterLink to="/math" v-slot="routerProps">
+                <!--
+                  the body of the card can sit on top of these buttons and make them impossible to click.
+                  hard to see without modifying the bg color of the body.
+                  raise them up a bit.
+                -->
+                <button
+                    class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
+                    @click="routerProps.navigate"
+                    style="cursor:pointer; position: relative; z-index: 10"
+                >
+                  &nbsp;<i class="fa fa-home"></i>&nbsp;
+                </button>
+              </RouterLink>
+
+              <div class="w3-center" :title="seed" @click="flipped=!flipped">
+                ({{ props.index + 1 }}/{{ words.length }})
+              </div>
+
+
               <button
-                  class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-                  @click="routerProps.navigate"
+                  class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
+                  @click="reshuffle()"
                   style="cursor:pointer; position: relative; z-index: 10"
               >
-                &nbsp;<i class="fa fa-home"></i>&nbsp;
+                &nbsp;<i class="fa fa-random"></i>&nbsp;
               </button>
-            </RouterLink>
 
+            </div>
 
-            <button
-                class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"
-                @click="reshuffle()"
-                style="cursor:pointer; position: relative; z-index: 10"
+            <div class="w3-yellow w3-flex center"
+                 style="align-items: center; justify-content: space-between; width: 100%;"
             >
-              &nbsp;<i class="fa fa-random"></i>&nbsp;
-            </button>
+<!--
+There is
+an extra check for 'flipped' in this click handler.
+right after the card flips when this button is on the back of the card,
+it can still receive a touch event, causing the card to slide the wrong direction.
+we only want these nextWord buttons button to work if we are NOT flipped.  the question
+side is up.
 
-            <div class="w3-hide-large w3-hide-medium w3-clear w3-container w3-xxlarge">
-              <div>
-                <p>
-                  This page should be viewed in landscape mode. Try turning your phone sideways.
-                </p>
+-->
+              <button class="xxw3-margin-left w3-button w3-xxlarge w3-orange w3-round-xxlarge "
+                      @click="!flipped && nextWord(-1, 'left1')"
+                      style="margin-left: 3px; "
+              >
+                &#10094;
+              </button>
+
+              <div class="w3-hide-large w3-hide-medium w3-container w3-jumbo bold">
+                <div class="w3-flex" style="margin: auto; flex-direction: column;">
+
+                  <div style="text-align: right;">
+                    {{ flashCard.a }}
+                  </div>
+
+                  <div style="text-align: right;">
+
+                <span style="border-bottom: 3px solid">
+                 <span v-html="methodHtml"/> {{ flashCard.b }}
+                </span>
+
+                  </div>
+
+                </div>
 
               </div>
-            </div>
 
-            <!--    <br>-->
-            <!--
-            people say not use tables for layout.  I have to think they are wrong.
-            this was so Easy to do.
-            -->
-
-            <!--
-              since this block element is centered (with position/left/translate), the table is lifted out of the dom.
-              so any other block elements will show up above it.
-
-              and since the home and settings icons are floated (with w3-left and w3-right), the block level element at the bottom
-              will show up between the buttons. (depending on the size of the block).
-
-            -->
-            <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0" xborder="1">
-              <thead>
-
-              <tr>
-                <td>
-                  <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;
-                  </button>
-                </td>
-                <td></td>
-
-                <td colspan="8" class="w3-center">
-                  <span class="xw3-cursive w3-monospace bold w3-mega"
-                        v-html="words[props.index].problem"
+              <div class="w3-hide-small">
+                  <span class="xw3-cursive w3-monospace bold w3-jumbo"
+                        v-html="flashCard.problem + ' = ' "
                   />
+              </div>
 
-                </td>
-                <td> &nbsp</td>
-                <td style="text-align:right">
-                  <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;
-                  </button>
-                </td>
-              </tr>
-              </thead>
-            </table>
+              <button class="xxw3-margin-right w3-button w3-xxlarge w3-orange w3-round-xxlarge"
+                      @click="!flipped && nextWord(+1, 'right1')"
+                      style="margin-right: 3px;"
+              >
+                &#10095;
+              </button>
+
+
+            </div>
 
             <!--        see comment above the table as to why this shows up at the top.-->
-            <div class="w3-center" :title="seed" @click="flipped=!flipped">
-              ({{ props.index + 1 }}/{{ words.length }})
-            </div>
+
           </div>
 
-          <div class="flip-card-back w3-pink w3-round-xxlarge"
-          >
-<!--            <RouterLink to="/" v-slot="routerProps">-->
-<!--              &lt;!&ndash;-->
-<!--                the body of the card can sit on top of these buttons and make them impossible to click.-->
-<!--                hard to see without modifying the bg color of the body.-->
-<!--                raise them up a bit.-->
-<!--              &ndash;&gt;-->
+          <div class="flip-card-back w3-pink w3-round-xxlarge">
+
+
+            <div class="w3-flex" style="justify-content: space-around; z-index: 1; align-items: center;">
+<!--              <RouterLink to="/math" v-slot="routerProps">-->
+<!--                &lt;!&ndash;-->
+<!--                  the body of the card can sit on top of these buttons and make them impossible to click.-->
+<!--                  hard to see without modifying the bg color of the body.-->
+<!--                  raise them up a bit.-->
+<!--                &ndash;&gt;-->
+<!--                <button-->
+<!--                    class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"-->
+<!--                    @click="routerProps.navigate"-->
+<!--                    style="cursor:pointer; position: relative; z-index: 10"-->
+<!--                >-->
+<!--                  &nbsp;<i class="fa fa-home"></i>&nbsp;-->
+<!--                </button>-->
+<!--              </RouterLink>-->
+
+              <div class="w3-center" :title="seed" @click="flipped=!flipped">
+                ({{ props.index + 1 }}/{{ words.length }})
+              </div>
+
+
 <!--              <button-->
-<!--                  class="w3-left w3-margin-left w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"-->
-<!--                  @click="routerProps.navigate"-->
+<!--                  class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"-->
+<!--                  @click="reshuffle()"-->
 <!--                  style="cursor:pointer; position: relative; z-index: 10"-->
 <!--              >-->
-<!--                &nbsp;<i class="fa fa-home"></i>&nbsp;-->
+<!--                &nbsp;<i class="fa fa-random"></i>&nbsp;-->
 <!--              </button>-->
-<!--            </RouterLink>-->
 
-
-<!--            <button-->
-<!--                class="w3-right w3-margin-right w3-margin-top w3-xlarge w3-text-blue w3-hover-text-teal w3-hover-pale-yellow w3-round-xxlarge"-->
-<!--                @click="reshuffle()"-->
-<!--                style="cursor:pointer; position: relative; z-index: 10"-->
-<!--            >-->
-<!--              &nbsp;<i class="fa fa-random"></i>&nbsp;-->
-<!--            </button>-->
-
-            <div class="w3-hide-large w3-hide-medium w3-clear w3-container w3-xxlarge">
-              <div>
-                <p>
-                  This page should be viewed in landscape mode. Try turning your phone sideways.
-                </p>
-
-              </div>
             </div>
 
-            <!--    <br>-->
-            <!--
-            people say not use tables for layout.  I have to think they are wrong.
-            this was so Easy to do.
-            -->
+            <div class="w3-flex center"
+                 style="align-items: center; justify-content: space-between; width: 100%;"
+            >
+              <button class="xxw3-margin-left w3-button w3-xxlarge w3-orange w3-round-xxlarge "
+                      @click="nextWord(-1, 'left2')"
+                      style="margin-left: 3px; "
+              >
+                &#10094;
+              </button>
 
-            <!--
-              since this block element is centered (with position/left/translate), the table is lifted out of the dom.
-              so any other block elements will show up above it.
+              <div class="w3-hide-large w3-hide-medium w3-container w3-jumbo bold">
+                <div class="w3-flex" style="margin: auto; flex-direction: column;">
 
-              and since the home and settings icons are floated (with w3-left and w3-right), the block level element at the bottom
-              will show up between the buttons. (depending on the size of the block).
+                  <div style="text-align: right;">
+                    {{ flashCard.a }}
+                  </div>
 
-            -->
-            <table class="center xw3-green w3-hide-small" style="width:100%; table-layout:fixed; margin: 0" xborder="1">
-              <thead>
+                  <div style="text-align: right;">
 
-              <tr>
-                <td>
-                  <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(-1)">&#10094;
-                  </button>
-                </td>
-                <td></td>
+                <span style="border-bottom: 3px solid">
+                   <span style="border-bottom: 3px solid">
+                 <span v-html="methodHtml"/> {{ flashCard.b }}
+                </span>
+                </span>
 
-                <td colspan="8" class="w3-center">
+                    <div>
+                      {{flashCard.answer}}
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="w3-hide-small">
                   <span class="xw3-cursive w3-monospace bold w3-jumbo"
-                     v-html="words[props.index].problem + ' = ' +  words[props.index].answer "
-                  >
-                  </span>
-                </td>
-                <td> &nbsp</td>
-                <td style="text-align:right">
-                  <button class="w3-button w3-xxlarge w3-orange w3-round-xxlarge" @click="nextWord(+1)">&#10095;
-                  </button>
-                </td>
-              </tr>
-              </thead>
-            </table>
+                        v-html="flashCard.problem + ' = ' + flashCard.answer"
+                  />
+              </div>
 
-            <!--        see comment above the table as to why this shows up at the top.-->
-            <div class="w3-center" :title="seed" @click="flipped=!flipped">
-              ({{ props.index + 1 }}/{{ words.length }})
+              <button class="xxw3-margin-right w3-button w3-xxlarge w3-orange w3-round-xxlarge"
+                      @click="nextWord(+1, 'right2')"
+                      style="margin-right: 3px;"
+              >
+                &#10095;
+              </button>
+
+
             </div>
           </div>
         </div>
@@ -242,6 +243,7 @@ let clientX
 let rotDeg
 
 let needsLandscape = computed(() => {
+  return false
   return width.value <= 600
 })
 
@@ -279,7 +281,7 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
     // to the spinning of the card.
     // smart guys would take the velocity of the slide into consideration).
     if (!flipped.value) {
-      rotDeg = Math.max(Math.min(offsetX / 3,0), -180)
+      rotDeg = Math.max(Math.min(offsetX / 3, 0), -180)
       // console.log("Swiping:   ", clientX, offsetX, rotDeg)
       flipCardInner.value.style.transform = "rotateY(" + rotDeg + "deg)"
       flipCardInner.value.style.transition = "unset"
@@ -305,7 +307,7 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
       flipCardInner.value.style.transform = null
       flipCardInner.value.style.transition = null
       // console.log("Swip end. lengthX = ",lengthX.value)
-      if (rotDeg < -45) {
+      if (rotDeg < -90) {
         flipped.value = !flipped.value
       }
       return
@@ -358,6 +360,19 @@ const wordBasedFontSize = computed(() => {
   return "w3-mega"
 })
 
+const flashCard = computed(()=> {
+  return words.value[props.index]
+})
+
+// convert * to &tiemes;
+const methodHtml = computed(()=> {
+  if (flashCard.value.method === "*") {
+    return "&times;"
+  } else {
+    return flashCard.value.method
+  }
+})
+
 
 // store the in local storage.
 const seed = useStorage('random-seed', 0)
@@ -393,8 +408,11 @@ function shuffle(array) {
 }
 
 
-function nextWord(count) {
+function nextWord(count, msg) {
 
+  if (msg) {
+    // console.log(swipeName.value + " "   + msg)
+  }
   if (count < 0) {
     swipeName.value = "look-left"
   } else {
@@ -465,9 +483,6 @@ function nextWord(count) {
  */
 
 
-.flip-card-inner.swiping {
-  transition: unset
-}
 
 .flip-card.flipped .flip-card-inner {
   transform: rotateY(-180deg);
@@ -487,6 +502,7 @@ function nextWord(count) {
 .flip-card-back {
   transform: rotateY(180deg);
 }
+
 
 
 .center-ai {
