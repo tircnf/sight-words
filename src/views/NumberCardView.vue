@@ -277,11 +277,17 @@ const {direction, isSwiping, lengthX, lengthY} = useSwipe(card, {
     const currentY = event.touches[0].clientY - initialY;
 
 
-    // 3 is a magic constant.  tring to scale the slide of your finger
+    // tring to scale the slide of your finger
     // to the spinning of the card.
-    // smart guys would take the velocity of the slide into consideration).
+    // the value can be a big different based on portrait vs landscape mode.
+    // in thin portrait mode, we need the card to spin a tiny bit faster.
+    // since this is the denominator, smaller is faster.
+    const magicConstant = computed(()=> width.value <= 600 ? 1.5 : 3)
+
+
+
     if (!flipped.value) {
-      rotDeg = Math.max(Math.min(offsetX / 3, 0), -180)
+      rotDeg = Math.max(Math.min(offsetX / magicConstant.value, 0), -180)
       // console.log("Swiping:   ", clientX, offsetX, rotDeg)
       flipCardInner.value.style.transform = "rotateY(" + rotDeg + "deg)"
       flipCardInner.value.style.transition = "unset"
@@ -473,7 +479,7 @@ function nextWord(count, msg) {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform 0.45s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
