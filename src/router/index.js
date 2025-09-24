@@ -21,6 +21,11 @@ const router = createRouter({
             component: () => import('../views/MathView.vue'),
         },
         {
+          path: "/fire",
+          name: "fire",
+          component: () => import("../views/Fireworks.vue")
+        },
+        {
             path: '/math/:listName/:index?',
             component: () => import('../views/NumberCardView.vue'),
             props: (route) => ({

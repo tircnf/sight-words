@@ -33,7 +33,7 @@ const router=useRouter()
         ever get an email from me.
       </p>
 
-      <p>
+      <p @click='router.push("/fire")'>
         Enjoy!
       </p>
 
